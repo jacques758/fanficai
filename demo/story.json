@@ -1,0 +1,84 @@
+{
+  "title": "The Long Way Round",
+  "fandom": "Original Sci-Fi",
+  "pairing": "Rin/Cass",
+  "rating": "T",
+  "pov": "third-limited",
+  "tense": "past",
+  "tone": "warm, character-driven",
+  "premise": "Two rival couriers are locked in the same station for one night.",
+  "tags": [
+    "slow burn",
+    "enemies to allies"
+  ],
+  "avoid": [
+    "character death"
+  ],
+  "characters": [
+    {
+      "name": "Rin",
+      "role": "protagonist",
+      "traits": [
+        "stubborn",
+        "precise"
+      ],
+      "voice": "clipped, dry",
+      "wants": "to be believed",
+      "canon_notes": ""
+    },
+    {
+      "name": "Cass",
+      "role": "antagonist",
+      "traits": [
+        "glib",
+        "tired"
+      ],
+      "voice": "",
+      "wants": "to be left alone",
+      "canon_notes": ""
+    }
+  ],
+  "chapters": [
+    {
+      "number": 1,
+      "title": "Small Hours",
+      "summary": "An ordinary night cracks open and the status quo stops holding.",
+      "beats": [
+        "Rin is pulled into the situation against better judgement",
+        "a conversation goes wrong in a way that reveals character",
+        "the chapter ends on a decision or a door closing"
+      ],
+      "pov": "Rin",
+      "text": "Rin counted three exits before anyone said hello.\n\nRin is pulled into the situation against better judgement. Rin turned the thought over the way you test a loose tooth.\n\nA conversation goes wrong in a way that reveals character. The light through the window moved a hand's width and neither of them filled the quiet.\n\nThe chapter ends on a decision or a door closing. \"I know,\" came the answer, too fast to be true.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nThere was a version of this where Rin walked away. Rin could see it, clean as a photograph.\n\n\"You could have told me,\" Rin said, and hated how steady it came out.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nNothing in the plan had accounted for this, which was becoming the plan's defining feature.\n\n\"You could have told me,\" Rin said, and hated how steady it came out.\n\nSomewhere below, the building settled with a sound like a held breath.\n\n\"You could have told me,\" Rin said, and hated how steady it came out.\n\nRin turned the thought over the way you test a loose tooth.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nThe light through the window moved a hand's width and neither of them filled the quiet.\n\nThe light through the window moved a hand's width and neither of them filled the quiet.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nRin turned the thought over the way you test a loose tooth.\n\nSomewhere below, the building settled with a sound like a held breath.\n\n\"You could have told me,\" Rin said, and hated how steady it came out.\n\nThe light through the window moved a hand's width and neither of them filled the quiet.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nThere was a version of this where Rin walked away. Rin could see it, clean as a photograph.\n\n\"You could have told me,\" Rin said, and hated how steady it came out.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nRin turned the thought over the way you test a loose tooth.\n\nThe message was still on the screen when the lights went out.",
+      "word_count": 412
+    },
+    {
+      "number": 2,
+      "title": "The Favour",
+      "summary": "A request that cannot be refused drags the cast into contact.",
+      "beats": [
+        "Cass is pulled into the situation against better judgement",
+        "a conversation goes wrong in a way that reveals character",
+        "the chapter ends on a decision or a door closing"
+      ],
+      "pov": "Cass",
+      "text": "Cass counted three exits before anyone said hello.\n\nCass is pulled into the situation against better judgement. Cass turned the thought over the way you test a loose tooth.\n\nA conversation goes wrong in a way that reveals character. The light through the window moved a hand's width and neither of them filled the quiet.\n\nThe chapter ends on a decision or a door closing. \"I know,\" came the answer, too fast to be true.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nThere was a version of this where Cass walked away. Cass could see it, clean as a photograph.\n\n\"You could have told me,\" Cass said, and hated how steady it came out.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nNothing in the plan had accounted for this, which was becoming the plan's defining feature.\n\n\"You could have told me,\" Cass said, and hated how steady it came out.\n\nSomewhere below, the building settled with a sound like a held breath.\n\n\"You could have told me,\" Cass said, and hated how steady it came out.\n\nCass turned the thought over the way you test a loose tooth.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nThe light through the window moved a hand's width and neither of them filled the quiet.\n\nThe light through the window moved a hand's width and neither of them filled the quiet.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nCass turned the thought over the way you test a loose tooth.\n\nSomewhere below, the building settled with a sound like a held breath.\n\n\"You could have told me,\" Cass said, and hated how steady it came out.\n\nThe light through the window moved a hand's width and neither of them filled the quiet.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nThere was a version of this where Cass walked away. Cass could see it, clean as a photograph.\n\n\"You could have told me,\" Cass said, and hated how steady it came out.\n\nSomewhere below, the building settled with a sound like a held breath.\n\nCass turned the thought over the way you test a loose tooth.\n\nThe message was still on the screen when the lights went out.",
+      "word_count": 412
+    },
+    {
+      "number": 3,
+      "title": "Tell Me Again",
+      "summary": "Old history resurfaces; someone lies by omission.",
+      "beats": [
+        "Rin is pulled into the situation against better judgement",
+        "a conversation goes wrong in a way that reveals character",
+        "the chapter ends on a decision or a door closing"
+      ],
+      "pov": "Rin",
+      "text": "",
+      "word_count": 0
+    }
+  ],
+  "schema_version": 1,
+  "created": 1785187798.6027217
+}
