@@ -7,11 +7,12 @@ import tempfile
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
+from unittest import mock
 
 from fanficai import engine, store
 from fanficai.cli import main
 from fanficai.models import Character, Project
-from fanficai.providers import MockProvider, get_provider
+from fanficai.providers import MockProvider, OllamaProvider, OpenAIProvider, get_provider
 
 
 def sample_project() -> Project:
@@ -169,11 +170,20 @@ class TestLint(unittest.TestCase):
 
 class TestUsageAccounting(unittest.TestCase):
     def test_usage_is_folded_into_project_total(self):
+        import os
+
         p = sample_project()
         prov = MockProvider()
         prov.last_usage = {"in": 500, "out": 1000}
         prov.model = "gpt-4o-mini"
-        line = engine.record_usage(p, prov)
+        with mock.patch.dict(
+            os.environ,
+            {
+                "FANFICAI_INPUT_USD_PER_MTOK": "0.15",
+                "FANFICAI_OUTPUT_USD_PER_MTOK": "0.60",
+            },
+        ):
+            line = engine.record_usage(p, prov)
         self.assertEqual(p.tokens_in, 500)
         self.assertEqual(p.tokens_out, 1000)
         self.assertEqual(p.calls, 1)
@@ -213,6 +223,25 @@ class TestProviders(unittest.TestCase):
         a = engine.write_chapter(p, MockProvider(seed=1), 1, words=100).text
         b = engine.write_chapter(sample_project(), MockProvider(seed=1), 1, words=100).text
         self.assertEqual(a, b)
+
+    def test_openai_uses_responses_payload(self):
+        response = {
+            "output": [{"content": [{"type": "output_text", "text": "Draft text"}]}],
+            "usage": {"input_tokens": 10, "output_tokens": 20},
+        }
+        with mock.patch("fanficai.providers._post", return_value=response) as post:
+            provider = OpenAIProvider(api_key="test-key")
+            self.assertEqual(provider.generate("rules", "prompt"), "Draft text")
+            request = post.call_args.args[0]
+            body = __import__("json").loads(request.data)
+            self.assertEqual(request.full_url, "https://api.openai.com/v1/responses")
+            self.assertEqual(body["instructions"], "rules")
+            self.assertEqual(provider.last_usage, {"in": 10, "out": 20})
+
+    def test_ollama_configuration(self):
+        provider = OllamaProvider(model="llama-test", base_url="http://localhost:11434/")
+        self.assertEqual(provider.model, "llama-test")
+        self.assertEqual(provider.url, "http://localhost:11434/api/generate")
 
 
 class TestCLI(unittest.TestCase):

@@ -21,7 +21,9 @@ def build_parser() -> argparse.ArgumentParser:
         description="A fanfiction co-writing assistant: story bible in, drafts out.",
     )
     p.add_argument("--project", "-p", default=None, help="project file (default story.json)")
-    p.add_argument("--provider", default=None, choices=["auto", "anthropic", "openai", "mock"])
+    p.add_argument(
+        "--provider", default=None, choices=["auto", "anthropic", "openai", "ollama", "mock"]
+    )
     p.add_argument("--model", default=None, help="override the model id")
     sub = p.add_subparsers(dest="cmd", required=True)
 

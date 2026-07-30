@@ -37,27 +37,21 @@ class Provider:
         raise NotImplementedError
 
     def last_cost(self) -> float:
-        """Estimated USD for the last call. Prices move; treat as indicative."""
-        rate_in, rate_out = price_per_mtok(getattr(self, "model", ""))
+        """Estimate cost only when the user supplies current provider rates."""
+        rate_in, rate_out = configured_price_per_mtok()
         u = self.last_usage
         return (u["in"] * rate_in + u["out"] * rate_out) / 1_000_000
 
 
-# USD per million tokens (input, output). Update as vendors change pricing.
-PRICES: dict[str, tuple[float, float]] = {
-    "gpt-4o-mini": (0.15, 0.60),
-    "gpt-4o": (2.50, 10.00),
-    "gpt-4.1-mini": (0.40, 1.60),
-    "claude-sonnet-4": (3.00, 15.00),
-    "claude-haiku": (0.80, 4.00),
-}
-
-
-def price_per_mtok(model: str) -> tuple[float, float]:
-    for key, rates in PRICES.items():
-        if model.startswith(key):
-            return rates
-    return (0.0, 0.0)  # unknown model: report tokens, not dollars
+def configured_price_per_mtok() -> tuple[float, float]:
+    """Read optional USD-per-million-token rates without embedding stale prices."""
+    try:
+        return (
+            float(os.environ.get("FANFICAI_INPUT_USD_PER_MTOK", "0") or 0),
+            float(os.environ.get("FANFICAI_OUTPUT_USD_PER_MTOK", "0") or 0),
+        )
+    except ValueError:
+        return (0.0, 0.0)
 
 
 # --------------------------------------------------------------------------
@@ -105,23 +99,21 @@ class AnthropicProvider(Provider):
 
 class OpenAIProvider(Provider):
     name = "openai"
-    URL = "https://api.openai.com/v1/chat/completions"
+    URL = "https://api.openai.com/v1/responses"
 
     def __init__(self, model: str | None = None, api_key: str | None = None):
         super().__init__()
         self.api_key = api_key or os.environ.get("OPENAI_API_KEY", "")
         if not self.api_key:
             raise ProviderError("OPENAI_API_KEY is not set")
-        self.model = model or os.environ.get("FANFICAI_MODEL", "gpt-4o-mini")
+        self.model = model or os.environ.get("FANFICAI_MODEL", "gpt-5.6-luna")
 
     def generate(self, system: str, prompt: str, max_tokens: int = 2000) -> str:
         body = {
             "model": self.model,
-            "max_completion_tokens": max_tokens,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user", "content": prompt},
-            ],
+            "max_output_tokens": max_tokens,
+            "instructions": system,
+            "input": prompt,
         }
         req = urllib.request.Request(
             self.URL,
@@ -134,10 +126,48 @@ class OpenAIProvider(Provider):
         data = _post(req)
         usage = data.get("usage", {})
         self.last_usage = {
-            "in": usage.get("prompt_tokens", 0),
-            "out": usage.get("completion_tokens", 0),
+            "in": usage.get("input_tokens", 0),
+            "out": usage.get("output_tokens", 0),
         }
-        return data["choices"][0]["message"]["content"].strip()
+        parts = []
+        for item in data.get("output", []):
+            for content in item.get("content", []):
+                if content.get("type") == "output_text":
+                    parts.append(content.get("text", ""))
+        result = "".join(parts).strip()
+        if not result:
+            raise ProviderError("OpenAI returned no text output")
+        return result
+
+
+class OllamaProvider(Provider):
+    name = "ollama"
+
+    def __init__(self, model: str | None = None, base_url: str | None = None):
+        super().__init__()
+        self.model = model or os.environ.get("FANFICAI_MODEL", "llama3.2")
+        root = base_url or os.environ.get("OLLAMA_BASE_URL", "http://localhost:11434")
+        self.url = f"{root.rstrip('/')}/api/generate"
+
+    def generate(self, system: str, prompt: str, max_tokens: int = 2000) -> str:
+        body = {
+            "model": self.model,
+            "system": system,
+            "prompt": prompt,
+            "stream": False,
+            "options": {"num_predict": max_tokens},
+        }
+        req = urllib.request.Request(
+            self.url,
+            data=json.dumps(body).encode("utf-8"),
+            headers={"content-type": "application/json"},
+        )
+        data = _post(req)
+        self.last_usage = {
+            "in": data.get("prompt_eval_count", 0),
+            "out": data.get("eval_count", 0),
+        }
+        return data.get("response", "").strip()
 
 
 def _post(req: urllib.request.Request) -> dict:
@@ -310,6 +340,8 @@ def get_provider(name: str | None = None, model: str | None = None) -> Provider:
         return AnthropicProvider(model)
     if name == "openai":
         return OpenAIProvider(model)
+    if name == "ollama":
+        return OllamaProvider(model)
     if name != "auto":
         raise ProviderError(f"unknown provider {name!r}")
 

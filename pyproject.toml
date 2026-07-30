@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=75", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "fanficai"
+version = "1.0.0"
+description = "A provider-flexible command-line fiction co-writer with continuity tools."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [{ name = "Jacques Vidjanagni" }]
+keywords = ["creative-writing", "cli", "openai", "anthropic", "ollama"]
+
+[project.scripts]
+fanficai = "fanficai.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["fanficai*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
