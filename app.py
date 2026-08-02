@@ -23,13 +23,13 @@ with st.sidebar:
         "Premise",
         "A careful courier opens a message meant for someone else and must decide who to trust.",
     )
+    generate = st.button("Create story demo", type="primary", width="stretch")
     tone = st.selectbox(
         "Tone",
         ["warm, character-driven", "tense and atmospheric", "hopeful adventure", "quiet mystery"],
     )
     chapter_count = st.slider("Outline chapters", 2, 6, 4)
     target_words = st.slider("Chapter-one target words", 200, 900, 450, 50)
-    generate = st.button("Create story demo", type="primary", width="stretch")
 
 st.info(
     "This public demo intentionally uses FanficAI's offline mock provider. It exercises the same "
