@@ -9,7 +9,7 @@ A command-line fiction co-writer that keeps a persistent story bible, generates 
 
 The public Streamlit Story Studio requires no account or API key. It uses the deterministic offline provider to create an original-fiction story bible, outline, chapter draft, continuity report, and downloadable Markdown manuscript.
 
-**Live URL:** added after the deployment is verified.
+**Live URL:** [FanficAI Story Studio](https://fanficai-story-studio.streamlit.app/)
 
 ## Features
 
