@@ -5,6 +5,12 @@
 
 A command-line fiction co-writer that keeps a persistent story bible, generates outlines and drafts, checks continuity offline, tracks provider usage, and exports clean Markdown.
 
+## Live demo
+
+The public Streamlit Story Studio requires no account or API key. It uses the deterministic offline provider to create an original-fiction story bible, outline, chapter draft, continuity report, and downloadable Markdown manuscript.
+
+**Live URL:** added after the deployment is verified.
+
 ## Features
 
 - Persistent project metadata, cast, canon notes, style, constraints, and chapter state.
@@ -24,6 +30,13 @@ fanficai --provider mock outline -n 4
 fanficai --provider mock write -c 1 -w 900
 fanficai check -c 1
 fanficai export --out manuscript.md
+```
+
+Launch the no-key web demo locally with:
+
+```bash
+python -m pip install -r requirements.txt
+streamlit run app.py
 ```
 
 ## Architecture
@@ -97,4 +110,3 @@ $ fanficai --provider mock check -c 1
 - Continuity lint uses transparent heuristics, not semantic proof.
 - Authors are responsible for platform rules, attribution, copyright, and consent.
 - Project files are local JSON and are not encrypted.
-
